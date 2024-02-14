@@ -1,0 +1,72 @@
+PCI-SIG SOFTWARE END USER LICENSE AGREEMENT
+
+IMPORTANT - READ BEFORE COPYING, INSTALLING OR USING.
+
+As used herein, "Software" refers to the PCI Express Configuration Verifier Test
+Tool Executable (PCIeCV), and any associated materials. Do not use or load the
+Software until You have carefully read the following terms and conditions. By
+loading or using the Software, You agree to the terms of this Agreement. If You
+do not wish to so agree, do not install or use the Software.
+
+LICENSE. The license grant herein is a worldwide, royalty-free, non-transferab-
+le, non-exclusive, perpetual license to use, reproduce, perform, or display the
+Software solely for the purpose of testing and validating one or more of Your
+PCIe implementations, subject to these conditions:
+
+    1. You may not copy any part of the Software except as provided in this
+    Agreement, and You agree to prevent unauthorized copying of the Software.
+
+    2. You may not sell, assign, lease or further sublicense the Software to any
+    third party.
+
+    3. You may not reverse engineer, decompile, disassemble, or otherwise at-
+    attempt to recreate the Software.
+
+    4. You may not modify or make derivative works of the Software, or have mod-
+    ified or derivative works made of the Software.
+
+OWNERSHIP OF SOFTWARE AND COPYRIGHTS. Title to all copies of the Software re-
+remains with PCI-SIG or its suppliers. You may not remove any copyright notices
+from the Software, and must reproduce all copyright, proprietary information
+notices, or other notices appearing on Software on all copies that You make of
+the Software. PCI-SIG may make changes to the Software, or to items referenced
+therein, at any time without notice, but is not obligated to support or update
+the Software. Except as otherwise expressly provided, PCI-SIG grants no express
+or implied right under any patents, copyrights, trademarks, or other intellectu-
+al property rights.
+
+EXCLUSION OF WARRANTIES. THE SOFTWARE IS PROVIDED ON AN "AS IS" BASIS AND PCI-
+SIG WILL NOT PROVIDE ANY SUPPORT, ASSISTANCE, INSTALLATION, TRAINING OR OTHER
+SERVICES. PCI-SIG MAKES NO COMMITMENT TO PROVIDE ANY UPDATES, ENHANCEMENTS OR
+EXTENSIONS TO THE SOFTWARE. PCI-SIG SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANT-
+IES, INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, NONIN-
+FRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS, OR FITNESS FOR A PARTICULAR PURPOSE,
+OR ANY IMPLIED WARRANTY ARISING FROM STATUTE, COURSE OF DEALING, COURSE OF PER-
+FORMANCE, OR USAGE OF TRADE. PCI-SIG DOES NOT WARRANT OR ASSUME RESPONSIBILITY
+FOR THE ACCURACY OR COMPLETENESS OF ANY INFORMATION, TEXT, GRAPHICS, LINKS OR
+OTHER ITEMS CONTAINED WITHIN THE SOFTWARE.
+
+LIMITATION OF LIABILITY. IN NO EVENT SHALL PCI-SIG HAVE ANY LIABILITY TO YOU OR
+ANY OTHER THIRD PARTY FOR ANY LOST PROFITS, LOST DATA, LOSS OF USE OR COSTS OF
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, OR FOR ANY INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF THIS AGREEMENT, OR THE USE OF OR INABILITY
+TO USE THE SOFTWARE, UNDER ANY CAUSE OF ACTION OR THEORY OF LIABILITY, AND IRRE-
+SPECTIVE OF WHETHER PCI-SIG HAS ADVANCE NOTICE OF THE POSSIBILITY OF SUCH DAMAG-
+ES. FURTHER, IN NO EVENT WILL PCI-SIG HAVE ANY OBLIGATION TO INDEMNIFY OR DEFEND
+YOU OR ANY OTHER THIRD PARTY AGAINST CLAIMS RELATED TO INFRINGEMENT OF INTELLEC-
+TUAL PROPERTY RIGHTS ARISING OUT OF THIS AGREEMENT, OR THE USE OF OR INABILITY
+TO USE THE SOFTWARE. THESE LIMITATIONS SHALL APPLY NOTWITHSTANDING THE FAILURE
+OF THE ESSENTIAL PURPOSE OF ANY LIMITED REMEDY.
+
+TERMINATION OF THIS AGREEMENT. PCI-SIG may terminate this Agreement if You
+breach any material term or condition of this Agreement and fail to remedy the
+breach within ten (10) business days after being given written notice thereof.
+If this Agreement is terminated for any reason, You will, at PCI-SIG’s option
+and within thirty (30) days following termination, either (a) return to PCI-SIG
+the original and all copies of the Software in Your possession, or (b) destroy
+the original and all copies of the Software in Your possession, and certify to
+PCI-SIG that they have been destroyed.
+ 
+APPLICABLE LAW. Any claim arising under or relating to this Agreement shall be
+governed by the internal substantive laws of the State of Oregon or federal
+courts located in Oregon, without regard to principles of conflict of laws.

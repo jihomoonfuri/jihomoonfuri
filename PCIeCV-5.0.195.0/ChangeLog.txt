@@ -1,0 +1,395 @@
+    PCIeCV 5.0 Change Log
+
+2024/11/01 - PCIeCV 5.0.195.0
+
+    - Fix bug introduced in PCIeCV 5.0.191.1 where SetLinkSpeed attempts to read
+      Physical Layer 32.0 GT/s ECAP structure in Downstream Port if either Down-
+      stream or Upstream Port are 32.0 GT/s capable. If ECAP structure not pres-
+      ent in Downstream Port, DUT initialization fails with status 0x80000057.
+    - Fix bug introduced in PCIeCV 5.0.160.0 where WaitDLLUp called on upstream
+      Link Partner after SBR reset performed in TD 3.13. If link not established
+      when WaitDLLUp called, reset and test fail with status 0x80000037.
+    - TD 1.73, 1.78 - Port Direction, Crosslink Supported, Test/Default attrib-
+      ute and field name reported incorrectly in dynamic modification rules for
+      Lane Equalization Control registers. Fix ordering of FLR rules to prevent
+      ROS attribute from overriding RO-Zero attribute when FUT is Upstream Port
+      that does not support crosslink.
+    - Fix bug introduced in PCIeCV 5.0.193.0 on ARM64 where dynamic modification
+      rules not applied when target value is 0xFFFFFFFF.
+
+2023/12/01 - PCIeCV 5.0.194.0
+
+    - Integrate ARC/GPDI driver with PCIeCV 5.0.
+    - Fix segmentation fault in TTPIFillDeviceTree when FUT with NULL parent in-
+      correctly implements an ARI ECAP structure. For example, PCIeCV 5.0 would
+      crash if any RP implemented an ARI ECAP structure after initial bus scan.
+
+2023/10/29 - PCIeCV 5.0.193.0
+
+    - Port PCIeCV 5.0 to ARM64 (Windows/Linux).
+    - Update PCI-SIG HWA driver to v1.42 (ARM64).
+
+2023/10/11 - PCIeCV 5.0.191.1
+
+    - TD 1.556 - Add ALERT message for additional condition which can be caused
+      by lane reversal on platform.
+    - Bug in SetLinkSpeed as part of Reset mechanism framework whereby Bypass Eq
+      to Highest Rate Disable may not get modified.
+
+2023/08/31 - PCIeCV 5.0.190.0
+
+    - TD 1.40, 1.78 - Move determination of Function Type and Alternate Routing
+      ID to beginning of test to prevent incorrect dynamic modification rules
+      from being applied.
+
+2023/08/13 - PCIeCV 5.0.180.7
+
+    - General improvement to framework to catch "severe" DUT issues which may
+      cause OS to hang/reboot by:
+        1) add new command line option "-abortOnFail" to terminate CV before any
+           attempt to Cfg access DUT.
+        2) ttpi - ability to WriteToLog from ResetDevice, CheckDefaultValues,
+           RestoreBusNumbers, WaitDLLUp, ChkVID instead of printing to console
+           only.
+        3) Add additional informational messages which had previously only been
+           output to console to now also capture in log file eg bus topology
+        4) Increase threshold for "*RTT=" console messages to 175ms.
+    - Add PCIeCVAppFastSegment0.ini - reduce Min Time To First Allowed Cfg Re-
+      quest to 1ms (to expedite test time for most modern DUTs able to tolerate
+      it).
+
+2023/07/28 - PCIeCV 5.0.179.1
+
+    - TD 1.6 - Prevent default value test on RC-internal devices when Extended
+      Message Data tested as RW.
+
+2023/07/20 - PCIeCV 5.0.179.0
+
+    - TD 1.5 - Fix bug causing every DUT to be treated as Downstream Port when
+      determining whether LP present during testing of Maximum and Negotiated
+      Link Width fields.
+    - TD 1.49 - Incorrect In-Band PD Disable default value test parameters for
+      RPs.
+    - Fix regression causing compliance test suite to omit functional test
+      cases.
+    - Prevent register tests from being run twice when DUT is RCiEP or TLS = 0.
+    - Prevent segmentation fault on Linux when CLI parameters missing.    
+    
+2023/06/13 - PCIeCV 5.0.178.0
+
+    - Global Bugfix: When Compliance Test Suite selected for SW-DN, TD_1_998,
+      TD_1_999 inadvertently omitted since 5.0.162.0.  Restore omission.
+    - When Compliance Test Suite selected at a specific speed less than the max
+      possible linkSpeed, that speed is ignored and the max possible link Speed
+      is still being used. This will now force that speed to be used, basically
+      overriding max speed possible between both sides of the link, for addit-
+      ional debug purposes.
+    - Added flexibility to use command line options in conjunction with selec-
+      tion of Test Suites (Compliance, All (not TD_1_998, TD_1_999), Reg
+      (TD_1_*), Func (TD_2_*, TD_3_*)).
+    - Command line error handling messages improved and sent to log file.
+
+2023/06/03 - PCIeCV 5.0.177.0
+
+    - New Feature: Support for ACPI MCFG "Segment". Uses new parameter in
+      PCIECVAPP.ini, "PCI_SegmentNumber", to override default Segment #0. Requi-
+      res a priori knowledge of valid segment numbers. This can be determined by
+      running "PCIeCVApp -scan" first to show all segments specified in ACPI
+      MCFG Table. Depending on system platform implementation, the ACPI Table
+      might return all Segments, even those that are hot-pluggable. So if this
+      is the case and those segments are turned off, that can cause a fault when
+      attempt to access.
+    - TD_2_12, TD_3_12 - ReadConfigSpaceByBDF modified to become
+      ReadConfigSpaceBySBDF for segment support
+    - New Feature:  Allow user defined filename to override ini/PCIECVApp.ini so
+      one may define many input parameter ini files for flexibility e.g.
+      ini/PlatformX.ini, ini/AICy.ini. Feature only available when run from com-
+      mand line - "pciecvapp.exe -bdf 1:0:0 -ini AICy.ini"
+    - TD 1.49 - Slot Capabilities register incorrectly read into Slot Capabilit-
+      ies 2 field.
+    - TD 1.8 - Extended VC Count incorrectly used to determine TC/VC Map attrib-
+      utes for VC 0.
+    - TD 1.23, 1.24 - Fix failure when no link partner or link partner does not
+      respond after reset.
+    
+2023/05/18 - PCIeCV 5.0.176.0
+
+    - Remove dependency on Expat and Safe C libraries.
+
+2023/04/12 - PCIeCV 5.0.173.5
+
+    - PCIeCV 5.0 versions 5.0.173.1 and above require the PCI-SIG kernel module
+      and shared library to be installed to standard system locations on Linux.
+      See README.md for more information.
+    - TD_1_56 – Preserve VF Enable field such that VF topology unperturbed at
+      conclusion of test case.
+    - ResetDevice - apply correct MinTimeToFirstAccessForType1 delay parameter
+      when DUT=SW-DN; propagate proper Reset timeout code up stack.
+    - RestoreBusNumbers – refine SLOT_IMPLEMENTED algorithm; account for addit-
+      ional delay when retimer(s) in the link.
+    - VIDs.pci - List of Vendor IDs updated.
+    - TD_2_2, TD_2_8 will terminate once first failure encountered (instead of
+      attempting remaining iterations).
+    - TD_2_2 fix bug introduced in 5.0.160.1 regarding incorrect side of the
+      link to perform non-sticky bit testing.
+    - TD_1_76 - Enclosure-specific Controls field dynamic modification Rule 1
+      reversed.
+
+2023/02/08 - PCIeCV 5.0.168.0
+
+    - TD_3_12 – ARI Forwarding state wasn't being restored if determined that
+      test gets skipped.
+    - TD_1_16 – Remove extraneous info text message when D2 not tested.
+    - Correct info text output lookup for "Other Multi-media device – vendor
+      specific interface" during bus topology scan.
+    - TD_3_* - Perform CheckLink immediately following initial reset.
+
+2023/02/01 - PCIeCV 5.0.165.0
+
+    - TD_3_10 – Fix for corner case when DUT's TLS = 0 hard-coded to 2.5GT/s.
+    - TD_2_3 – Adding missing Step 1 to see if downstream port Link Partner has
+      a slot implemented and if so, whether slot is Hot Plug capable.
+
+2023/01/04 - PCIeCV 5.0.162.0
+
+    - Reset algorithm – fixed bug – after reset-de-assertion and DL_Up, check
+      for valid Vendor ID did not take into account value = 0x0001 (CRS – Con-
+      figuration Retry Status) as being invalid Vendor ID.  This, in effect,
+      would have shortchanged the completion of the reset sequence for those
+      hosts whereby CRS visibility enabled.  
+    - This fix also safely allows modification of the following timing paramet-
+      ers in PCIECVApp.ini - MinTimeToFirstAllowedCfgAccessVal=100 and
+      MinTimeToFirstAllowedCfgAccessForSwitchVal=5. Empirically, for 95% of typ-
+      ical newer (Gen3+) DUTs, these values can be safely reduced to 0 or 1ms if
+      desire to reduce overall test time.
+    - MinTimeToFirstAllowedCfgAccessForSwitchVal increased to 100ms as permitted
+      by Base Spec (same allowance for all DUTs).
+    - PCIECVApp.ini – add new test timing parameter, OptDlyTimeVal=0.  There may
+      be occasion whereby older (Gen2-) Link Partner need more time between test
+      cases. Do NOT increase this for official IL testing.
+    - TD_2_6, TD_3_13 – fix for Rst algorithm especially affects these test
+      cases.
+    - Retrain Link algorithm – remove pre-retrain Link Training bit = 0 check
+      "race condition" as this algorithm was never correctly implemented (was
+      checking for Link Training bit = 1 erroneously).
+    - TD_2_2, TD_3_8 – incorrect status register read.
+    - For DUT=Downstream Ports, remove redundant (TD_1_1998) and unnecessary
+      (TD_1_999) test cases from the Compliance Test Suite.
+    - stopOnFail xxx option did not initialize xxx to 0 causing CV to abort
+      prematurely.
+    - TD_1_78 - limit Modified TS Usage Mode Selected ini attribute testing to
+      just Downstream Port test; correction for upstream port testing withdrawn
+      until next generation IL.
+
+2022/11/15 - PCIeCV 5.0.158.0
+
+    - Update safeclib to v3.7.1.
+    - Update Linux documentation in README.md
+    - Update PCIeCV/DD build systems to support GCC 12 and other Linux distrib-
+      utions.
+    - Must use PCI-SIG Hardware Access Driver v1.25.
+
+2022/11/09 - PCIeCV 5.0.157.1
+
+    - Bug in removal of check for Config Access readiness for DUT=Root Ports;
+      check is now re-instated.
+    - Recognize Flattening Portal Bridge Extended Capability Structure.
+    - Ability to override MMCFG Base Address and PCI Start Bridge Number from
+      OS/BIOS defaults at Segment 0 in PCIECVApp.ini. Use Base Address to expli-
+      citly specify address for any non-zero Segment number within 64-bit add-
+      ress space. Use the combination of PCI Start Bridge Value and PCI Max
+      Bridge Value to scan a narrower bus topology aperture.
+    - README files updated for Linux to support Ubuntu 22.04LTS and more current
+      kernels.
+
+2022/10/12 - PCIeCV 5.0.154.0
+
+    - Bug in use of pcisig device driver for odd word accesses being broken into
+      separate byte accesses – affected pcisig_lib_common.c and
+      DriverInterface.cpp Cfg Rd/Wr interface routines.
+
+2022/09/17 - PCIeCV 5.0.153.0
+
+    - ttpi.h – include <cstddef.h> for forward Compiler use of offsetOf().
+
+2022/07/18 - PCIeCV 5.0.152.3
+
+    - Ini engine treatment of "RVal" parameter was not restoring the field of
+      interest but applied to whole byte, word, or dword size.
+    - SetLinkSpeed routine – insert dummy proof code to catch if attempt to
+      write illegal values for TLS, namely TLS=0 or TLS=0xF and print ALERT in
+      log; re-instate check for Link Partner also Config Ready (5.0.145.0) but
+      increase the ChkCfgRdy time to accommodate worst case slow Link Partner
+      (from 10ms prior to 5.0.145.0) to 100ms minimum.
+    - TD_1_78 – correct non-ini discrete rules for 32GT/s struct in conjunction
+      with Alt Prot and RC Int Link Cntl structures.
+
+2022/05/22 - PCIeCV 5.0.150.1
+
+    - Fix bug causing number of functional test iterations to be set incorrectly
+      when run as part of aggregate test case from GUI.
+    - TD_1_69 – Fix crash on DUTs with 6 VF resizable BARs; incorrect VF BAR
+      Size field for VF Resizable BAR Control Registers 1-5. 
+    - TD_1_46 – Incorrect mask in dynamic modification rules for
+      MC_Receive_31-0, MC_Block_All_31-0, MC_Block_Untranslated_31-0 when < 32
+      multicast groups; fix typo in MC_Block_All_31-0 dynamic modification rule. 
+    - TD_2_11 – False failure for functions > 0 on multi-function DUTs caused by
+      incorrect reads from Physical Layer 32 GT/s Extended Capability structure
+      (which does not exist).  
+
+2022/04/08 - PCIeCV 5.0.149.0
+
+    - TD_1_556 Alerts and Warnings for Max Steps reached in any direction, SKIP
+      when not at >= 16GT/s.
+    - TD_2_9, TD_2_10, TD_3_14, TD_3_16 – Updated additional steps to match CV5
+      Test Spec 0.92; remove unreliable Link Status 2 Reg check.
+    - TD_2_11, TD_3_17 – Updated additional checks for pre-coding Base Spec gap
+      in accordance to CV5 Test Spec 1.0; remove extraneous additional
+      trainLink; minimize output.
+
+2022/03/14 - PCIeCV 5.0.145.0
+
+    - SetLinkSpeed should never write TLS = 0 .
+
+2022/03/11 - PCIeCV 5.0.144.0
+
+    - Annual update for Vendor IDs to company name, PCI Code and ID Assignment
+      v1.14 applied
+    - False failure when running under Ubuntu for certain test cases which gen-
+      erate UR whereby host doesn't handle UR Reporting Enable; apply pre-con-
+      dition to disable all UR, Fatal, non-Fatal, Uncorrectable Error Reporting
+      Enable.
+    - Update instructions for new signed PCI-SIG Device Driver installation un-
+      der Windows OS'
+    - Ubuntu – Upgrade Kernel from 5.11 to 5.13.
+
+2022/02/09 - PCIeCV 5.0.138.0
+
+    - TD_1_49 Incorrect dynamic modification to Power Fault Detected Enable
+      field.
+
+2022/01/29 - PCIeCV 5.0.136.0
+
+    - TD_2_9, TD_2_10, TD_2_11, TD_3_14, TD_3_16, TD_3_17 – SW Link Eq all
+      speeds – relaxed checking of Link Eq Status mismatch from Pass/Fail to
+      Alerts.
+    - TD_1_21 – fix false failure for field START_BIST by increasing the delay
+      to 2 seconds before performing the check.
+
+2022/01/07 - PCIeCV 5.0.134.0
+
+    - PCIECVApp – '-preview' flag no longer crashes Linux build; correctly write
+      to TestList.txt.
+    - TD_1_43, TD_1_47, TD_1_63, TD_1_64 – Base 5.0 Errata absorbed to Base 4.0
+      item B28 (FLR not required to reset some ECAP registers); new TD_1_43,
+      TD_1_47 INI_FLR files.
+    - TD_1_41 – "Enter Compliance (UpStr Ports)" set TestType RW when Function
+      0, Max Link Speed > 2.5, LDE or SBR reset (incorrect logic).
+    - TD_1_78 – "Downstream Port 32.0 GT/s Transmitter Preset (UpStr Ports or
+      RCRBs)" set TestType RO, Default 0 when Crosslink Supported 0, Upstream
+      Port (incorrect logic). 
+    - TD_1_63 – "Link Activation Status (UpStr Ports)", "RsvdZ_31_1" set
+      TestType RO when L1 PM Substates Capability Version > 1 (incorrect logic).
+
+2021/12/17 - PCIeCV 5.0.133.0
+
+    - TD_1_556 only invoked with "Run Individual Test Case" or directly from
+      CLI.
+
+2021/12/01 - PCIeCV 5.0.131.3
+
+    - TD_1_63, TD_1_73, TD_1_78 dynamic modification corrections, restrictions
+    - TD_1_58, TD_1_61 dynamic modification fixed.
+    - TD_1_18 consistency check for Type 1 BAR1 fixed.
+
+2021/11/12 - PCIeCV 5.0.124.0
+
+    - PCISIG Hardware Access Driver v1.1.0 – Windows signed device driver (must
+      un-install and "Delete software" for previous PCISIG Device Driver first),
+      reboot, and then install this one.
+    - TD_1_8, TD_1_9, TD_1_28, TD_1_29, TD_1_42, TD_1_49, TD_1_50, TD_1_63,
+      TD_1_73, TD_1_79 -Dynamic modifications updates for fields.
+    - TD_1_556 – Lane Margining functional test refined.
+    - TestStickyBits algorithm restricts reset based on Device Type tested upon.
+
+2021/10/26 - PCIeCV 5.0.144.0
+
+    - PCISIG Device Driver v1.0.4 – Windows signed device driver.
+    - TD_1_3, TD_1_5, TD_1_9, TD_1_10, TD_1_21, TD_1_22, TD_1_25, TD_1_26,
+      TD_1_29, TD_1_40, TD_1_41, TD_1_42, TD_1_48, TD_1_49, TD_1_50, TD_1_54,
+      TD_1_56, TD_1_63, TD_1_64, TD_1_66, TD_1_67, TD_1_72, TD_1_73, TD_1_74,
+      TD_1_76 - Dynamic modifications updates for fields.
+    - TD_1_65 – Added M-PCIe.
+    - TD_1_556 – Lane Margining functional test on selected DUT.
+    - Change "RVal" parameter to only restore when TestType not Don't Care.
+
+2021/09/25 - PCIeCV 5.0.96.0
+
+    - Revised set of ini files to accommodate 4.X and 5.0 Test Spec.  Not all
+      dynamic modifications for every test case is in place yet.
+    - TD_1_4, TD_1_41 uses latest dynamic modifications for ini processing
+    - Valuable New Feature for additional debug via command line – Run pciecvapp
+      from command line and have ability to display every relative timestamped
+      Cfg Rd/Wr to console – "pciecvapp.exe -bdf x:y:z -td comp -l 2" with the
+      "-l 2" option.
+    - Fix false failures related to ARI handling for non-function 0 functions as
+      well as functions above function 8 (in ARI numbering 0-255).
+    - TD_2_6/TD_3_13 – optimize Special SBR for Type 1 devices.
+    - 5.0.85 – Introduction of first release with 32/64 Linux device driver
+      (Ubuntu 20LTS 64 and Kubuntu 18 LTS 32 targeted).
+    - TD_2_4 fix incorrect interpretation fo MinTimeToFirstAllowedCfgAccessVal
+      parameter.
+    - TD_1_16 fix false failure related to PME_EN.
+    - Update to Vendor ID ascii file to latest PCI-SIG Membership.
+    - Update ClassCode to Name translation according to PCI Code and ID Assign-
+      ment Spec, v1.11.
+    - Reset Algorithm – remove check if desired speed >8GT/s prior to 2nd re-
+      retrain attempt.
+
+2021/04/08 - PCIeCV 5.0.69.0
+
+    - PCIECV_64bitDriver - PCIECV.SYS, PCIESW.INF, pciesw.cat – Kernel level
+      memory allocation fix. Requires uninstallation and delete of "PCIe Config-
+      uration Space Access Tool" device driver from Device Manager. Installation
+      of this new device driver will reveal new name "Universal PCIE Configur-
+      ation Space Access Tool" in Device Manager with driver date of 3/26/2021
+      and v11.20.40.726.
+
+2021/03/20 - PCIeCV 5.0.68.0
+
+    - TD_1_31 Cleanup obsolete messages.
+    - 1_78.ini – missing RO attributes for RsvdP fields.
+    - TD_2_6/TD_3_13 – fix logic to point to correct Upstream/Downstream devices
+      and post SBR reset cleanup.
+    - ResetAttributeTranslationTable – reveal when modified from default in test
+      log; correct for Rst=NOT when HwInit and RWRO; correct for Rst=FLR when
+      HwInit.
+    - TestStickyBit – fix to allow optional "Default=" to be unspecified; handle
+      RW1CS case.
+    - TD_1_28 – Generalize delay timing between VPD Addr and Data accesses
+      (100ms nominal – poll until ready).
+    - TTPIFillDeviceTree – print out when Classcode invalid.
+    - Global #defines _WIN32_WINNT=0x0A00 and WIN32_MFC_GUI.
+    - ChkCfgRdy on both sides of link – useful when Link Partner is a slow down-
+      stream port.
+    - Include DelayAfterWr when ini algorithm performs CheckDefaultValue.
+    - TD_1_18, TD_1_42 – need to set DelayAfterWr=0, add extra debug messaging.
+
+2021/02/08 - PCIeCV 5.0.55.0
+
+    - New test cases – TD_1_35, TD_1_57, TD_1_77, TD_1_78, TD_1_79, TD_2_6,
+      TD_3_13.
+    - New Reset Mechanism - "No Reset" FYI – useful for debugging, helpful when
+      hardware doesn't yet support proper Link Resets.
+    - FLR (Function Level Reset) Reset Mechanism conditionally normative (if FLR
+      supported, it must comply to spec).
+    - Support for 32.0GT/s data rate for all test cases.
+    - For field attribute testing, support restoration of RW (read-write) fields
+      to final value after testing. ("RVal" parameter in ini file field).
+    - For field attribute testing, support optional x ms. delay after Cfg Write
+      (if required for proper behavior for certain fields) ("DelayAfterWr" par-
+      ameter in ini file field).
+    - Command line parameter "-stopOnFail x" coverage increased to majority of
+      all FAIL including those occurring when testing field attributes.
+    - Better tolerance for testing downstream ports without a connected device
+      (for TD_1_xxx test cases) Use Slot Implemented checking.
